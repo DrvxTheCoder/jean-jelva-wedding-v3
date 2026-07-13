@@ -35,7 +35,7 @@ export function Hero() {
     <section className="relative flex h-svh min-h-140 items-end justify-center overflow-clip">
       <img
         ref={imgRef}
-        src="/images/hero/bg-hero-cover-2.jpeg"
+        src="/images/hero/bg-hero-backdrop-2.jpg"
         alt="Jean-Michel et Jelva"
         className="absolute inset-0 h-full w-full object-cover will-change-transform"
         fetchPriority="high"
