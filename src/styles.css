@@ -1,0 +1,142 @@
+/* ============================================================
+   Jean & Jelva — Tailwind v4 (config CSS-first)
+   Palette moodboard : Or · Rose · Rose pastel · Blanc
+   ============================================================ */
+
+@import "tailwindcss";
+
+@theme {
+  /* Couleurs */
+  --color-or: #c9a227;
+  --color-or-soft: #d4af4e;
+  --color-rose: #c69c7b;
+  --color-rosepastel: #f9e2d2;
+  --color-mainbg: #faf5f0;
+  --color-lightsection: #f6e7dc;
+  --color-noir: #0f0f0f;
+
+  /* Polices */
+  --font-display: "Playfair Display", serif;
+  --font-fraunces: "Fraunces", serif;
+  --font-script: "Great Vibes", cursive;
+  --font-sans: "Inter", sans-serif;
+
+  /* Échelle typographique (miroir des TextStyles Framer) */
+  --text-h1: clamp(40px, 13.2vw, 190px);
+  --text-h1--line-height: 0.9;
+  --text-h1--letter-spacing: -0.04em;
+
+  --text-h2: clamp(40px, 5.7vw, 82px);
+  --text-h2--line-height: 1.04;
+  --text-h2--letter-spacing: -0.02em;
+
+  --text-h3: clamp(32px, 3.3vw, 48px);
+  --text-h3--line-height: 1.08;
+  --text-h3--letter-spacing: -0.02em;
+
+  --text-h4: clamp(22px, 2.1vw, 30px);
+  --text-h4--line-height: 1.27;
+  --text-h4--letter-spacing: -0.02em;
+
+  --text-h5: 26px;
+  --text-h5--line-height: 30px;
+  --text-h5--letter-spacing: -0.02em;
+
+  --text-b34: clamp(24px, 2.4vw, 34px);
+  --text-b34--line-height: 1.12;
+  --text-b34--letter-spacing: -0.02em;
+
+  --text-num: clamp(40px, 5vw, 72px);
+  --text-num--line-height: 1;
+  --text-num--letter-spacing: -0.02em;
+
+  /* Animation marquee */
+  --animate-marquee: marquee 84s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
+
+  body {
+    @apply bg-mainbg font-sans text-black antialiased;
+    overflow-x: clip;
+  }
+
+  section[id] {
+    scroll-margin-top: 90px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Reveal on scroll (togglé par IntersectionObserver) */
+  .reveal {
+    @apply translate-y-14 opacity-0 transition-all duration-[950ms] ease-[cubic-bezier(0.22,1,0.36,1)];
+  }
+
+  .reveal.is-visible {
+    @apply translate-y-0 opacity-100;
+  }
+
+  /* Splash screen — entrées en cascade */
+  .splash-title {
+    animation: splash-rise 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  }
+
+  .splash-line {
+    animation: splash-grow 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
+  }
+
+  .splash-date {
+    animation: splash-rise 1s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
+  }
+
+  @keyframes splash-rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes splash-grow {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      @apply translate-y-0 opacity-100 transition-none;
+    }
+
+    .splash-title,
+    .splash-line,
+    .splash-date {
+      animation: none;
+    }
+  }
+}
