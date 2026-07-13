@@ -67,11 +67,13 @@
   html {
     scroll-behavior: smooth;
     overflow-x: clip;
+    scrollbar-width: none;
   }
 
   body {
     @apply bg-mainbg font-sans text-black antialiased;
     overflow-x: clip;
+    scrollbar-width: none;
   }
 
   section[id] {

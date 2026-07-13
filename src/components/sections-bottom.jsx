@@ -15,20 +15,73 @@ const fieldInput =
 
 export function Rsvp() {
   const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    presence: "",
+    notes: "",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (error) setError("");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const endpoint = import.meta.env.DEV
+      ? "/api/rsvp"
+      : import.meta.env.VITE_RSVP_WEBAPP_URL?.trim();
+    if (!endpoint) {
+      setError(
+        "L’envoi vers la feuille Google n’est pas encore configuré. Ajoutez VITE_RSVP_WEBAPP_URL à votre fichier d’environnement."
+      );
+      return;
+    }
+
+    setSubmitting(true);
+    setError("");
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || data.ok === false) {
+        throw new Error(data.error || `Échec de l’envoi (${response.status}).`);
+      }
+
+      setSent(true);
+    } catch (err) {
+      setError(err.message || "Impossible d’enregistrer votre réponse pour le moment.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <section className="pb-[100px] md:pb-[180px]" id="rsvp">
+    <section className="pb-25 md:pb-45" id="rsvp">
       <Reveal className="flex flex-col items-center gap-5">
         <Ornament />
         <h2 className="text-center font-fraunces text-h2">Pouvons-nous compter sur vous&nbsp;?</h2>
       </Reveal>
-      <div className="mt-20 mx-auto flex w-full max-w-[1440px] flex-col gap-8 px-5 md:px-10 lg:flex-row lg:gap-[60px]">
+      <div className="mt-20 mx-auto flex w-full max-w-360 flex-col gap-8 px-5 md:px-10 lg:flex-row lg:gap-15">
         <div className="flex flex-1 flex-col justify-between gap-6">
           <img
-            src="https://placehold.co/470x600.png?text=Photo"
+            src="/images/hero/bg-hero-cover-2.jpeg"
             alt=""
             loading="lazy"
-            className="aspect-47/60 w-full max-w-[570px] object-cover"
+            className="aspect-47/60 w-full max-w-142.5 object-cover bg-center"
           />
         </div>
         <div className="flex flex-1 flex-col gap-8 md:gap-10 pt-10">
@@ -36,18 +89,34 @@ export function Rsvp() {
             <Reveal>
               <h3 className="font-fraunces text-h3">Merci&nbsp;!</h3>
               <p className="mt-4 font-fraunces text-lg leading-6">
-                Votre réponse a bien été enregistrée. Nous avons hâte de célébrer ce jour avec vous.
+                Votre réponse a bien été enregistrée et ajoutée à la feuille de présence.
               </p>
             </Reveal>
           ) : (
-            <>
+            <form className="flex flex-col gap-8 md:gap-10" onSubmit={handleSubmit}>
               <label className="flex flex-col gap-2.5">
                 <span className={fieldLabel}>Nom &amp; prénom*</span>
-                <input className={fieldInput} type="text" name="name" autoComplete="name" required />
+                <input
+                  className={fieldInput}
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  autoComplete="name"
+                  required
+                />
               </label>
               <label className="flex flex-col gap-2.5">
                 <span className={fieldLabel}>Email*</span>
-                <input className={fieldInput} type="email" name="email" autoComplete="email" required />
+                <input
+                  className={fieldInput}
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  autoComplete="email"
+                  required
+                />
               </label>
               <div className="flex flex-col gap-2.5">
                 <span className={fieldLabel}>Votre présence*</span>
@@ -62,25 +131,33 @@ export function Rsvp() {
                         type="radio"
                         name="presence"
                         value={opt}
+                        checked={formData.presence === opt}
+                        onChange={handleChange}
+                        required
                       />
                       <span>{opt}</span>
                     </label>
                   ))}
                 </div>
               </div>
-              {/* <label className="flex flex-col gap-2.5">
-                <span className={fieldLabel}>
-                  Préférences alimentaires &amp; informations complémentaires
-                </span>
-                <textarea className={fieldInput} name="notes" rows={3} />
-              </label> */}
+              <label className="flex flex-col gap-2.5">
+                <span className={fieldLabel}>Informations complémentaires</span>
+                <textarea
+                  className={fieldInput}
+                  name="notes"
+                  value={formData.notes}
+                  onChange={handleChange}
+                  rows={3}
+                />
+              </label>
+              {error ? <p className="text-sm text-red-600">{error}</p> : null}
               <p className="text-base font-medium text-or">
                 Réponses attendues avant le 31 août 2026
               </p>
-              <Cta className="w-full" onClick={() => setSent(true)}>
-                Envoyer ma réponse
+              <Cta className="w-full" type="submit" disabled={submitting || !formData.name || !formData.email || !formData.presence}>
+                {submitting ? "Envoi en cours..." : "Envoyer ma réponse"}
               </Cta>
-            </>
+            </form>
           )}
         </div>
       </div>
@@ -105,10 +182,6 @@ const FAQ_ITEMS = [
   {
     q: "Y a-t-il un parking sur place ?",
     a: "Oui, un parking est disponible au Château de Beauclair. Suivez la signalétique à votre arrivée.",
-  },
-  {
-    q: "Des plats végétariens seront-ils proposés ?",
-    a: "Oui, des options végétariennes seront disponibles. Merci de préciser vos préférences alimentaires dans le formulaire de réponse.",
   },
   {
     q: "Quand faut-il répondre ?",
@@ -174,18 +247,18 @@ export function Faq() {
 const DRESS_CARDS = [
   {
     text: "Une tenue élégante et raffinée est encouragée — costume, robe de cocktail ou tenue de cérémonie.",
-    label: "Tenue 1",
+    img: "/images/dresscode/dresscode-homme.jpg",
     pos: "lg:top-0 lg:left-0",
   },
   {
     text: "Inspirez-vous de notre palette : or, rose et rose pastel, pour une harmonie douce et lumineuse.",
-    label: "Tenue 2",
-    pos: "lg:top-[420px] lg:right-0",
+    img: "/images/dresscode/palette.jpg",
+    pos: "lg:bottom-50 lg:left-1/2 lg:-translate-x-1/2",
   },
   {
     text: "Pas de code strict — portez ce qui vous met en valeur. Une seule demande : merci de réserver le blanc à la mariée.",
-    label: "Tenue 3",
-    pos: "lg:bottom-0 lg:left-1/2 lg:-translate-x-1/2",
+    img: "/images/dresscode/dresscode-femme-2.jpg",
+    pos: "lg:top-[420px] lg:right-0",
   },
 ];
 
@@ -200,11 +273,11 @@ export function DressCode() {
         <div className="relative z-[1] flex flex-col items-center gap-14 lg:block lg:h-[1680px]">
           {DRESS_CARDS.map((card, i) => (
             <Reveal
-              key={card.label}
+              key={card.img}
               className={`flex w-full max-w-[380px] flex-col gap-5 lg:absolute ${card.pos}`}
             >
               <img
-                src={`https://placehold.co/380x480.png?text=${encodeURIComponent(card.label)}`}
+                src={card.img}
                 alt=""
                 loading="lazy"
                 className="aspect-[38/48] w-full object-cover"
@@ -235,14 +308,14 @@ export function Footer() {
           <span className="text-sm uppercase tracking-[0.14em] text-black/40">
             Une question ? Contactez-nous
           </span>
-          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-[30px]">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-2">
             <a
               className="font-fraunces text-lg leading-6 transition-colors hover:text-or"
               href="tel:+33648151822"
             >
               Aby — 06 48 15 18 22
             </a>
-            <Flower className="hidden md:block" />
+            |
             <a
               className="font-fraunces text-lg leading-6 transition-colors hover:text-or"
               href="tel:+33613272485"

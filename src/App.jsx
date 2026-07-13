@@ -20,7 +20,7 @@ function useSmoothScroll() {
 export default function App() {
   useSmoothScroll();
   return (
-    <main id="top">
+    <main id="top" className="scrollbar-none">
       <Splash />
       <Navbar />
       <Hero />
@@ -29,9 +29,9 @@ export default function App() {
       <Schedule />
       <Venue />
       <Hotels />
+      <DressCode />
       <Rsvp />
       <Faq />
-      <DressCode />
       <Footer />
     </main>
   );

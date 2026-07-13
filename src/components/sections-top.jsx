@@ -35,12 +35,12 @@ export function Hero() {
     <section className="relative flex h-svh min-h-140 items-end justify-center overflow-clip">
       <img
         ref={imgRef}
-        src="/images/hero/bg-hero-cover.webp"
+        src="/images/hero/bg-hero-cover-2.jpeg"
         alt="Jean-Michel et Jelva"
         className="absolute inset-0 h-full w-full object-cover will-change-transform"
         fetchPriority="high"
       />
-      <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-t  from-black/25 to-transparent to-45%" />
+      <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-t  from-white to-transparent to-45%" />
       <div
         ref={titleRef}
         className="z-2 w-full flex flex-row justify-center items-center max-w-360 pb-25 px-10 will-change-transform"
@@ -130,14 +130,22 @@ export function Countdown() {
 }
 
 /* ---------- Section About ---------- */
+const ABOUT_IMAGES = [
+  "/images/venues/chateau-de-beauclair-1.jpg",
+  "/images/venues/chateau-de-beauclair-2.jpg",
+  "/images/venues/chateau-de-beauclair-3.webp",
+  "/images/venues/chateau-de-beauclair-4.jpg",
+  "/images/venues/chateau-de-beauclair-5.jpeg",
+];
+
 export function About() {
   return (
     <section className="flex flex-col items-center gap-14 py-[100px] md:gap-20 md:py-[180px]">
       <Reveal className="flex max-w-[770px] flex-col items-center gap-5 px-5 md:px-10">
         <Ornament />
         <p className="text-center font-display text-h4">
-          Nous nous marions ! Le grand jour est fixé au 9 octobre 2026 et nous avons hâte d'y être. 
-          Découvrez dès maintenant le programme de la journée, le lieu et le dress code, 
+          Nous nous marions ! Le grand jour est fixé au 9 octobre 2026 et nous avons hâte d'y être.
+          Découvrez dès maintenant le programme de la journée, le lieu et le dress code,
           puis confirmez votre présence pour faire la fête à nos côtés !
         </p>
       </Reveal>
@@ -147,22 +155,22 @@ export function About() {
       <Reveal>
         <Cta href="#rsvp">Confirmer ma présence</Cta>
       </Reveal>
-      <div className="flex w-full gap-[15px] overflow-x-auto md:overflow-clip">
-        {[
-          "/images/venues/chateau-de-beauclair.jpg",
-          "/images/venues/chateau-de-beauclair-2.jpg",
-          "/images/venues/chateau-de-beauclair-3.webp",
-          "/images/venues/chateau-de-beauclair-4.jpg",
-          "https://placehold.co/460x613.png?text=Photo+5",
-        ].map((src) => (
-          <img
-            key={src}
-            src={src}
-            alt=""
-            loading="lazy"
-            className="aspect-[3/4] w-[60vw] flex-none object-cover md:w-auto md:min-w-0 md:flex-1"
-          />
-        ))}
+      <div className="w-full overflow-hidden">
+        <div className="flex w-max animate-marquee items-center motion-reduce:animate-none" aria-hidden="true">
+          {Array.from({ length: 2 }).map((_, copy) => (
+            <div className="flex items-center gap-[15px] pr-[15px] md:gap-[20px] md:pr-[20px]" key={copy}>
+              {ABOUT_IMAGES.map((src) => (
+                <img
+                  key={`${src}-${copy}`}
+                  src={src}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-[3/4] h-[320px] w-[240px] shrink-0 object-cover md:h-[420px] md:w-[320px]"
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

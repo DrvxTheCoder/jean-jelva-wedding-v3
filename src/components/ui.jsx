@@ -56,7 +56,7 @@ export function Flower({ className = "" }) {
 }
 
 /* Main CTA — double texte qui glisse au hover (fidèle au composant Framer) */
-export function Cta({ children, href, onClick, type, className = "" }) {
+export function Cta({ children, href, onClick, type, className = "", disabled = false }) {
   const label = (
     <span className="font-fraunces text-lg leading-6 font-semibold">{children}</span>
   );
@@ -68,7 +68,7 @@ export function Cta({ children, href, onClick, type, className = "" }) {
       </span>
     </span>
   );
-  const base = `group inline-flex cursor-pointer items-center justify-center border-none bg-or px-[30px] py-[13px] text-white ${className}`;
+  const base = `group inline-flex items-center justify-center border-none bg-or px-[30px] py-[13px] text-white ${disabled ? "cursor-not-allowed opacity-70" : "cursor-pointer"} ${className}`;
   if (href) {
     return (
       <a
@@ -82,7 +82,7 @@ export function Cta({ children, href, onClick, type, className = "" }) {
     );
   }
   return (
-    <button className={base} onClick={onClick} type={type || "button"}>
+    <button className={base} onClick={onClick} type={type || "button"} disabled={disabled}>
       {inner}
     </button>
   );

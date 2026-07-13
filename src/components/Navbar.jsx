@@ -47,7 +47,7 @@ export function Navbar() {
           <a
             href="#top"
             onClick={close}
-            className={`font-script text-[26px] leading-none whitespace-nowrap transition-colors md:max-w-[200px] md:flex-1 ${
+            className={`font-script text-2xl leading-none whitespace-nowrap transition-colors md:max-w-[200px] md:flex-1 ${
               open ? "text-white" : "text-black"
             }`}
           >
