@@ -33,15 +33,7 @@ export function Rsvp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const endpoint = import.meta.env.DEV
-      ? "/api/rsvp"
-      : import.meta.env.VITE_RSVP_WEBAPP_URL?.trim();
-    if (!endpoint) {
-      setError(
-        "L’envoi vers la feuille Google n’est pas encore configuré. Ajoutez VITE_RSVP_WEBAPP_URL à votre fichier d’environnement."
-      );
-      return;
-    }
+    const endpoint = "/api/rsvp";
 
     setSubmitting(true);
     setError("");

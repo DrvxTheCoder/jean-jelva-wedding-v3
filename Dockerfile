@@ -6,12 +6,11 @@ ARG NGINX_IMAGE=nginx:1.27-alpine
 FROM ${NODE_IMAGE} AS build
 WORKDIR /app
 
-ENV REPO_URL=${REPO_URL}
-ENV GIT_USERNAME=${GIT_USERNAME}
-ENV GIT_TOKEN=${GIT_TOKEN}
-ENV GIT_SSL_NO_VERIFY=${GIT_SSL_NO_VERIFY}
-ENV VITE_RSVP_WEBAPP_URL=${VITE_RSVP_WEBAPP_URL}
-
+ARG REPO_URL=
+ARG GIT_USERNAME=
+ARG GIT_TOKEN=
+ARG GIT_SSL_NO_VERIFY=false
+ARG VITE_RSVP_WEBAPP_URL=
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git ca-certificates \
@@ -37,5 +36,6 @@ RUN pnpm build
 
 FROM ${NGINX_IMAGE}
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
