@@ -4,7 +4,7 @@ ARG NODE_IMAGE=node:20-bookworm-slim
 ARG NGINX_IMAGE=nginx:1.27-alpine
 
 FROM ${NODE_IMAGE} AS build
-WORKDIR /app
+WORKDIR /app 
 
 ARG REPO_URL=
 ARG GIT_USERNAME=

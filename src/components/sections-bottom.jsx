@@ -5,6 +5,9 @@ import { Ornament, Cta, Reveal, Flower } from "./ui.jsx";
 const PRESENCE_OPTIONS = [
   "Je serai présent(e) pour la bénédiction nuptiale et la réception",
   "Je serai présent(e) uniquement pour la réception",
+];
+
+const INVITE_OPTIONS = [
   "Je suis invité(e) par la mariée",
   "Je suis invité(e) par le marié",
 ];
@@ -21,6 +24,7 @@ export function Rsvp() {
     name: "",
     email: "",
     presence: "",
+    invitedBy: "",
     notes: "",
   });
 
@@ -39,13 +43,14 @@ export function Rsvp() {
     setError("");
 
     try {
+      // Use form-encoded body to avoid CORS preflight in some mobile browsers.
+      const payload = { ...formData, submittedAt: new Date().toISOString() };
+      const body = new URLSearchParams();
+      Object.entries(payload).forEach(([k, v]) => body.append(k, v ?? ""));
+
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          submittedAt: new Date().toISOString(),
-        }),
+        body: body,
       });
 
       const data = await response.json().catch(() => ({}));
@@ -110,7 +115,7 @@ export function Rsvp() {
                   required
                 />
               </label>
-              <div className="flex flex-col gap-2.5">
+              <div className="flex flex-col gap-6">
                 <span className={fieldLabel}>Votre présence*</span>
                 <div className="flex flex-col gap-3.5">
                   {PRESENCE_OPTIONS.map((opt) => (
@@ -119,7 +124,7 @@ export function Rsvp() {
                       key={opt}
                     >
                       <input
-                        className="mt-0.5 size-[18px] flex-none cursor-pointer accent-or"
+                        className="mt-0.5 size-4.5 flex-none cursor-pointer accent-or"
                         type="radio"
                         name="presence"
                         value={opt}
@@ -130,6 +135,28 @@ export function Rsvp() {
                       <span>{opt}</span>
                     </label>
                   ))}
+                </div>
+                <div className="flex flex-col gap-2.5">
+                  <span className={fieldLabel}>Invité par*</span>
+                  <div className="flex flex-col gap-3.5">
+                    {INVITE_OPTIONS.map((opt) => (
+                      <label
+                        className="flex cursor-pointer items-start gap-3 font-fraunces text-lg leading-6"
+                        key={opt}
+                      >
+                        <input
+                          className="mt-0.5 size-4.5 flex-none cursor-pointer accent-or"
+                          type="radio"
+                          name="invitedBy"
+                          value={opt}
+                          checked={formData.invitedBy === opt}
+                          onChange={handleChange}
+                          required
+                        />
+                        <span>{opt}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
               <label className="flex flex-col gap-2.5">
@@ -146,7 +173,7 @@ export function Rsvp() {
               <p className="text-base font-medium text-or">
                 Réponses attendues avant le 31 août 2026
               </p>
-              <Cta className="w-full" type="submit" disabled={submitting || !formData.name || !formData.email || !formData.presence}>
+              <Cta className="w-full" type="submit" disabled={submitting || !formData.name || !formData.email || !formData.presence || !formData.invitedBy}>
                 {submitting ? "Envoi en cours..." : "Envoyer ma réponse"}
               </Cta>
             </form>

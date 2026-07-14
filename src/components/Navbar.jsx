@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Cta } from "./ui.jsx";
 
 const LINKS = [
-  { label: "Le lieu", href: "#lieu" },
   { label: "Programme", href: "#programme" },
-  { label: "FAQ", href: "#faq" },
+  { label: "Le lieu", href: "#lieu" },
   { label: "Dress code", href: "#dresscode" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export function Navbar() {
@@ -33,9 +33,12 @@ export function Navbar() {
             {l.label}
           </a>
         ))}
-        <Cta href="#rsvp" className="mt-4" onClickCapture={close}>
+        {/* <Cta href="#rsvp" className="mt-4" >
           RSVP
-        </Cta>
+        </Cta> */}
+        <a href="#rsvp" className="mt-4 px-4 p-2 font-fraunces text-lg leading-6 font-semibold bg-or text-white hover:bg-or-soft" onClick={close}>
+          RSVP
+        </a>
       </div>
 
       <header

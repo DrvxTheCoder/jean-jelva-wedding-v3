@@ -12,9 +12,16 @@ function doGet() {
 
 function doPost(e) {
   try {
-    const payload = typeof e.postData.contents === "string"
-      ? JSON.parse(e.postData.contents)
-      : {};
+    // Support both JSON and form-encoded payloads.
+    let payload = {};
+    if (e.postData && e.postData.type && e.postData.type.indexOf("application/json") !== -1) {
+      payload = JSON.parse(e.postData.contents || "{}");
+    } else if (e.parameter) {
+      // form-encoded submissions arrive in e.parameter
+      payload = e.parameter;
+    } else {
+      payload = {};
+    }
 
     const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
     const row = [
@@ -22,6 +29,7 @@ function doPost(e) {
       payload.name || "",
       payload.email || "",
       payload.presence || "",
+      payload.invitedBy || "",
       payload.notes || "",
       payload.submittedAt || "",
     ];

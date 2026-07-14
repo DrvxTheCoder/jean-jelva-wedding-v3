@@ -27,7 +27,7 @@ export function Venue() {
               une journée inoubliable au cœur de son parc.
             </p>
           </Reveal>
-          <Reveal className="grid max-w-120 grid-cols-2 gap-6">
+          <Reveal className="grid max-w-120 grid-cols-2 gap-4">
             {[
               ["Lieu :", "Château de Beauclair"],
               ["Région :", "Loiret, Centre-Val de Loire"],
@@ -41,7 +41,7 @@ export function Venue() {
             <div className="flex flex-col gap-1">
               <span className="text-sm text-black/40">Site :</span>
               <a
-                className="font-fraunces text-lg leading-6 underline underline-offset-3 transition-colors hover:text-or"
+                className="font-fraunces text-sm leading-6 underline underline-offset-3 transition-colors hover:text-or"
                 href="https://www.chateaudebeauclair.com/"
                 target="_blank"
                 rel="noreferrer"
