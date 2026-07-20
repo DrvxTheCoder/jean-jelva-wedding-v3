@@ -103,9 +103,9 @@ export function Hotels() {
         </a>
         <a
           className="font-medium text-xl leading-6 transition-colors hover:text-or"
-          href="tel:+33613272485"
+          href="tel:+33607638369"
         >
-          Judith — 06 13 27 24 85
+          Magalie — 06 07 63 83 69
         </a>
       </div>
       <p className="max-w-[490px] text-base text-black/70">
