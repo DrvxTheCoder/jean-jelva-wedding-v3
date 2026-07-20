@@ -43,10 +43,10 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 z-1 bg-linear-to-t  from-white to-transparent to-45%" />
       <div
         ref={titleRef}
-        className="z-2 w-full flex flex-row justify-center items-center max-w-360 pb-25 px-10 will-change-transform"
+        className="z-2 w-full flex flex-row justify-center items-center max-w-360 pb-25 px-4 md:px-10 will-change-transform"
       >
-        <h1 className="pb-8 font-display text-7xl md:text-h1 text-black md:pb-12">
-          Jean <span className="font-script text-or">&amp;</span> Jelva
+        <h1 className="pb-8 font-display text-5xl md:text-9xl text-black md:pb-12">
+          Jean-Michel <span className="font-script text-or">&amp;</span> Jelva
         </h1>
       </div>
     </section>

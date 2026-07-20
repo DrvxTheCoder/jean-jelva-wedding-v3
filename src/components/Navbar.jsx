@@ -51,7 +51,7 @@ export function Navbar() {
               open ? "text-white" : "text-black"
             }`}
           >
-            Jean <span className="font-script text-or">&amp;</span> Jelva
+            Jean-Michel <span className="font-script text-or">&amp;</span> Jelva
           </a>
 
           {/* Menu desktop */}

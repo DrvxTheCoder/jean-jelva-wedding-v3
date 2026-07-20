@@ -45,7 +45,7 @@ export function Splash() {
         }`}
       >
         <p className="splash-title font-display text-[clamp(44px,8vw,110px)] leading-none tracking-[-0.02em]">
-          Jean <span className="font-script text-or">&amp;</span> Jelva
+          Jean-Michel <span className="font-script text-or">&amp;</span> Jelva
         </p>
         <div className="splash-line h-px w-45 bg-or" />
         <p className="splash-date text-sm uppercase tracking-[0.3em] text-black/50">

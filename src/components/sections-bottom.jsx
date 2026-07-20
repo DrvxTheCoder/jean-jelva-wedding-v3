@@ -288,8 +288,8 @@ export function Footer() {
   return (
     <footer className="bg-mainbg pt-[100px] pb-[30px] md:pt-[120px]">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center gap-14 px-5 md:gap-[70px] md:px-10">
-        <h2 className="w-full text-center font-display text-h1">
-          Jean <span className="font-script text-or">&amp;</span> Jelva
+        <h2 className="w-full text-center font-display text-5xl md:text-9xl">
+          Jean-Michel <span className="font-script text-or">&amp;</span> Jelva
         </h2>
         <div className="flex max-w-[900px] flex-wrap items-center justify-center gap-4 md:gap-[30px]">
           <span className="font-fraunces text-lg leading-6">Vendredi 9 Octobre 2026</span>
@@ -310,9 +310,9 @@ export function Footer() {
             |
             <a
               className="font-fraunces text-lg leading-6 transition-colors hover:text-or"
-              href="tel:+33613272485"
+              href="tel:+33607638369"
             >
-              Judith — 06 13 27 24 85
+              Magalie — 06 07 63 83 69
             </a>
           </div>
         </div>
