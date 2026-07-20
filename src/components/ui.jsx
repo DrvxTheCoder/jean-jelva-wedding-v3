@@ -58,7 +58,9 @@ export function Flower({ className = "" }) {
 /* Main CTA — double texte qui glisse au hover (fidèle au composant Framer) */
 export function Cta({ children, href, onClick, type, className = "", disabled = false }) {
   const label = (
-    <span className="font-fraunces text-lg leading-6 font-semibold">{children}</span>
+    <a href={href} className="font-fraunces text-lg leading-6 font-semibold">
+      {children}
+    </a>
   );
   const inner = (
     <span className="h-6 overflow-hidden">

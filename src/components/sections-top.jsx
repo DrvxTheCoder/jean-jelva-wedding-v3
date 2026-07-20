@@ -87,7 +87,7 @@ export function Marquee() {
 }
 
 /* ---------- Compte à rebours (demande du brief) ---------- */
-const DEADLINE = new Date("2026-08-31T15:00:00+02:00");
+const DEADLINE = new Date("2026-08-31T00:00:00+02:00");
 
 function useCountdown(target) {
   const [now, setNow] = useState(() => Date.now());
