@@ -188,7 +188,7 @@ export function Rsvp() {
 const FAQ_ITEMS = [
   {
     q: "Les enfants sont-ils invités ?",
-    a: "Avis aux mini-invités : vous êtes officiellement réquisitionnés pour une soirée pyjama. Pendant ce temps, vos parents auront pour mission de célébrer notre mariage, de danser, de rire et de profiter de la fête.",
+    a: "Nous adorons vos enfants, mais le mariage se déroulera exclusivement en présence des adultes. Merci de votre compréhension.",
   },
   {
     q: "À quelle heure faut-il arriver ?",
